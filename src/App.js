@@ -5,7 +5,7 @@ import TextForm from "./components/TextForm";
 function App() {
   return (
     <div className="App">
-      <Navbar title = "MyReactApp" about = "About Demo"/>
+      <Navbar title = "MyTextConverterApp"/>
       <TextForm heading = "Enter Text : " />
     </div>  
   );
