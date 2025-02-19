@@ -28,6 +28,12 @@ export default function TextForm(props) {
         setText(event.target.value);
     }
 
+    const handleCopy = () =>{
+        var text = document.getElementById("myBox");
+        text.select();
+        navigator.clipboard.writeText(text.value);
+    }
+
     const toggleStyle = () =>{
         if(myStyle.color === 'black'){
             setMyStyle({
@@ -46,29 +52,30 @@ export default function TextForm(props) {
         }
     }
 
-
     const [text, setText] = useState("");
-
-
-
-  return (
+    return (
     <>
-        <div style={myStyle}>
+        <div className='container' style={{color : props.mode === 'dark' ? 'white' : 'black'}}>
         <h1><b>{props.heading}</b></h1>
-        <textarea className="form-control"  onChange={handleChange} value={text} rows="5" id="myBox" style={myStyle}></textarea>
-        <br />
+        <div className='mb-3'>
+        <textarea className="form-control" color='grey' onChange={handleChange} value={text} rows="8" id="myBox"
+         style={{color : props.mode === 'dark' ? 'white' : 'grey',
+         color : props.mode === 'dark' ? 'white' : 'black'}}>
+         </textarea>
         <button className="btn btn-primary mx-1" onClick={handleClick}><b>Convert to UpperCase</b></button> 
         <button className="btn btn-primary mx-1" onClick={handleLowerClick}><b>Convert to LowerCase</b></button>   
-        <button className="btn btn-primary mx-1" onClick={handleClearClick}><b>Clear Text</b></button>
-        <button className="btn btn-primary mx-1" onClick={toggleStyle} ><b>{btnText}</b></button>
-
+        <button className="btn btn-primary mx-1" onClick={handleClearClick}><b>Clear</b></button>
+        <button className="btn btn-primary mx-1" onClick={handleCopy} ><b>Copy</b></button>
     </div>
-    <div style={myStyle}>
+    <br />
+    <br />
+    <div className='container' style={{color : props.mode === 'dark' ? 'white' : 'black'}}>
         <h1><b>Text Summary</b></h1>
         <p><b>words : {text.split(" ").length} , Characters : {text.length}</b></p>
         <p><b>words Read Time : {0.008 * text.split(" ").length}</b></p>
         <h2><b>Preview</b></h2>
         {text}
+    </div>
     </div>
     </>
   )

@@ -4,7 +4,7 @@ export default function Navbar(props) {
 
   return (
      <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
       <a className="navbar-brand" href="/">{props.title}</a>
 
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,11 @@ export default function Navbar(props) {
 
           <form className="form-inline my-2 my-lg-0">
           </form>
+
+          <div className={`form-check form-switch text-${props.mode === 'light' ? 'dark' : 'light'}`}>
+          <input className="form-check input" onClick={props.toggleMode} type='checkbox' id='flexSwitchDefault'/>
+          <label className="form-check label"  htmlFor='flexSwitchDefault'>Dark Mode</label>
+         </div>
 
         </div>
       </nav>
