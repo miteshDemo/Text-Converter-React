@@ -3,18 +3,33 @@ import React, {useState} from 'react'
 export default function TextForm(props) {
 
     const handleClick = () => {
+
+        if(text.trim().length === 0){
+            props.showAlert("Text is empty!", "warning")
+            return;
+        }
         let newText = text.toUpperCase();
         setText(newText);
         props.showAlert("UpperCase is Enabled..!", "success");
     }
 
     const handleLowerClick = () => {
+
+        if(text.trim().length === 0){
+            props.showAlert("Text is empty!", "warning")
+            return;
+        }
         let newText2 = text.toLowerCase();
         setText(newText2);
         props.showAlert("Converted to LowerCase..!", "success");
     }
 
     const handleClearClick = () => {
+        
+        if(text.trim().length === 0){
+            props.showAlert("Text is Already Empty!", "warning")
+            return;
+        }
         let newText3 = '';
         setText(newText3);
         props.showAlert("Text Will be Cleared..!", "success");
@@ -25,10 +40,16 @@ export default function TextForm(props) {
     }
 
     const handleCopy = () =>{
+
         var text = document.getElementById("myBox");
         text.select();
         navigator.clipboard.writeText(text.value);
         props.showAlert("Text will be Copied..!", "success");
+
+        if(text.length === 0){
+            props.showAlert("Text is Already Empty..!", "warning")
+            return;
+        }
     }
 
     const [text, setText] = useState("");
