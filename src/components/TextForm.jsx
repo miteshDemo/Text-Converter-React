@@ -1,83 +1,99 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react';
+import { TextField, Button, Box, Typography, Stack } from '@mui/material';
 
 export default function TextForm(props) {
+  const [text, setText] = useState("");
 
-    const handleClick = () => {
-
-        if(text.trim().length === 0){
-            props.showAlert("Text is empty!", "warning")
-            return;
-        }
-        let newText = text.toUpperCase();
-        setText(newText);
-        props.showAlert("UpperCase is Enabled..!", "success");
+  const handleClick = () => {
+    if (text.trim().length === 0) {
+      props.showAlert("Text is empty!", "warning");
+      return;
     }
+    setText(text.toUpperCase());
+    props.showAlert("UpperCase is Enabled..!", "success");
+  };
 
-    const handleLowerClick = () => {
-
-        if(text.trim().length === 0){
-            props.showAlert("Text is empty!", "warning")
-            return;
-        }
-        let newText2 = text.toLowerCase();
-        setText(newText2);
-        props.showAlert("Converted to LowerCase..!", "success");
+  const handleLowerClick = () => {
+    if (text.trim().length === 0) {
+      props.showAlert("Text is empty!", "warning");
+      return;
     }
+    setText(text.toLowerCase());
+    props.showAlert("Converted to LowerCase..!", "success");
+  };
 
-    const handleClearClick = () => {
-        
-        if(text.trim().length === 0){
-            props.showAlert("Text is Already Empty!", "warning")
-            return;
-        }
-        let newText3 = '';
-        setText(newText3);
-        props.showAlert("Text Will be Cleared..!", "success");
+  const handleClearClick = () => {
+    if (text.trim().length === 0) {
+      props.showAlert("Text is Already Empty!", "warning");
+      return;
     }
+    setText('');
+    props.showAlert("Text Will be Cleared..!", "success");
+  };
 
-    const handleChange = (event) =>{
-        setText(event.target.value);
+  const handleChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    if (text.trim().length === 0) {
+      props.showAlert("Text is Already Empty..!", "warning");
+      return;
     }
+    props.showAlert("Text will be Copied..!", "success");
+  };
 
-    const handleCopy = () =>{
+  const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+  const charCount = text.length;
+  const readTime = 0.008 * wordCount;
 
-        var text = document.getElementById("myBox");
-        text.select();
-        navigator.clipboard.writeText(text.value);
-        props.showAlert("Text will be Copied..!", "success");
+  const isDarkMode = props.mode === 'dark';
 
-        if(text.length === 0){
-            props.showAlert("Text is Already Empty..!", "warning")
-            return;
-        }
-    }
+  return (
+    <Box sx={{ color: isDarkMode ? 'white' : '#042743', p: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        <b>{props.heading}</b>
+      </Typography>
 
-    const [text, setText] = useState("");
+      <TextField
+        id="myBox"
+        label="Enter your text"
+        multiline
+        rows={8}
+        fullWidth
+        value={text}
+        onChange={handleChange}
+        variant="outlined"
+        sx={{
+          backgroundColor: isDarkMode ? '#333' : '#fff',
+          color: isDarkMode ? '#fff' : '#042743',
+          mb: 2
+        }}
+        InputProps={{
+          style: {
+            color: isDarkMode ? 'white' : '#042743'
+          }
+        }}
+      />
 
-    return (
-    <>
-        <div className='container' style={{color : props.mode === 'dark' ? 'white' : '#042743'}}>
-        <h1><b>{props.heading}</b></h1>
-        <div className='mb-3'>
-        <textarea className="form-control" color='grey' onChange={handleChange} value={text} rows="8" id="myBox"
-         style={{backgroundColor : props.mode === 'dark' ? 'grey' : 'white',
-         color : props.mode === 'dark' ? 'white' : '#042743'}}>
-         </textarea>
-         <br />
-        <button className="btn btn-primary mx-1" onClick={handleClick}><b>Convert to UpperCase</b></button> 
-        <button className="btn btn-primary mx-1" onClick={handleLowerClick}><b>Convert to LowerCase</b></button>   
-        <button className="btn btn-primary mx-1" onClick={handleClearClick}><b>Clear</b></button>
-        <button className="btn btn-primary mx-1" onClick={handleCopy} ><b>Copy</b></button>
-    </div>
-    <br />
-    <div className='container' style={{color : props.mode === 'dark' ? 'white' : '#042743'}}>
-        <h1><b>Text Summary</b></h1>
-        <p><b>words : {text.split(" ").length} , Characters : {text.length}</b></p>
-        <p><b>words Read Time : {0.008 * text.split(" ").length}</b></p>
-        <h2><b>Preview</b></h2>
-        {text.length > 0 ? text : "Write Something For Preview...!"}
-    </div>
-    </div>
-    </>
-  )
+      <Stack direction="row" spacing={2} mb={4}>
+        <Button variant="contained" onClick={handleClick}>Convert to UpperCase</Button>
+        <Button variant="contained" onClick={handleLowerClick}>Convert to LowerCase</Button>
+        <Button variant="contained" onClick={handleClearClick}>Clear</Button>
+        <Button variant="contained" onClick={handleCopy}>Copy</Button>
+      </Stack>
+
+      <Box>
+        <Typography variant="h5"><b>Text Summary</b></Typography>
+        <Typography><b>Words:</b> {wordCount}, <b>Characters:</b> {charCount}</Typography>
+        <Typography><b>Estimated Read Time:</b> {readTime.toFixed(2)} minutes</Typography>
+
+        <Typography variant="h6" mt={2}><b>Preview</b></Typography>
+        <Typography>
+          {text.length > 0 ? text : "Write Something For Preview...!"}
+        </Typography>
+      </Box>
+    </Box>
+  );
 }

@@ -35,7 +35,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar title = "MyTextConverterApp" mode = {mode} toggleMode= {toggleMode}/>
+      <Navbar title = "Text Converter App"  mode = {mode} toggleMode= {toggleMode}/>
       <Alert alert={alert} />
       <TextForm heading = "Enter Text : " mode = {mode} showAlert={showAlert}  />
     </div>  
